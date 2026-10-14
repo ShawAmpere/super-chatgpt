@@ -50,7 +50,7 @@ LibreOffice 是可选组件，用于旧版文档转换；未被自动发现时�
 3. 双击根目录的 `tunnel.bat`，首次运行时隐藏输入密钥。
 4. 在 Chat 中添加或刷新连接，按界面提示授予工具使用权限。
 
-密钥使用当前 Windows 用户的 DPAPI 加密，保存在 `%LOCALAPPDATA%\SuperChatGPT\credentials`，不写入仓库。Tunnel ID 也可通过 `LOCAL_MCP_TUNNEL_ID` 或 `CONTROL_PLANE_TUNNEL_ID` 指定。
+密钥使用当前 Windows 用户的 DPAPI 加密，保存在 `%LOCALAPPDATA%\SuperChatGPT\credentials`。Tunnel ID 也可通过 `LOCAL_MCP_TUNNEL_ID` 或 `CONTROL_PLANE_TUNNEL_ID` 指定。
 
 `tunnel.bat /check` 检查配置和连接，`tunnel.bat /reset-key` 更换密钥。普通启动会停止同一 Tunnel 的旧实例后重新启动，应在依赖该连接的工作结束后运行。
 
@@ -100,7 +100,7 @@ ngrok http 8787
 
 ## 配置与维护
 
-个人配置、密钥、运行记录和文档备份不随仓库提交。可用 `LOCAL_MCP_CONFIG_DIR` 指定独立配置目录，也可使用仓库旁的 `user/config`。其中 `runtime.local.json` 指定本机运行目录和 Python，`tunnel.local.json` 指定 Tunnel ID，`workspace-policy.json` 和 `services.local.json` 用于本地组件配置。没有个人配置时使用通用默认值。
+可用 `LOCAL_MCP_CONFIG_DIR` 指定配置目录，也可使用仓库旁的 `user/config`。其中 `runtime.local.json` 指定运行目录和 Python，`tunnel.local.json` 指定 Tunnel ID，`workspace-policy.json` 和 `services.local.json` 用于组件配置。未指定配置时使用默认值。
 
 更新源码后重新运行 `npm run setup`，待当前工作结束后重启 Tunnel 并刷新工具。发布过程将需要的运行配置保存到运行副本，运行中的插件不依赖源码目录。
 
