@@ -2,6 +2,7 @@ import { lstat, readFile, realpath, open } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { configurationFile } from './runtime-paths.js';
 
 const read = async file => {
   try { return JSON.parse(await readFile(file, 'utf8')); }
@@ -76,7 +77,7 @@ export async function verifyDependencies(base,names) {
 export async function workspaceStatus(base, { verifyFiles = false, verifyDependencyFiles = false } = {}) {
   const issues = [], versions = {};
   let compatible = true;
-  const policy = await read(path.join(base, 'shared/workspace-policy.json')) || await read(path.join(base, 'shared/workspace-policy.default.json'));
+  const policy = await read(configurationFile('workspace-policy.json', path.join(base, 'shared/workspace-policy.json'), base)) || await read(path.join(base, 'shared/workspace-policy.default.json'));
   if (policy?.format !== 1) throw new Error('Workspace compatibility policy is missing or unsupported.');
   for (const [name, family] of Object.entries(policy.component_families)) {
     const pkg = await read(path.join(base, name, 'package.json'));

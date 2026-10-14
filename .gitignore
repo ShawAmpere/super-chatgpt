@@ -1,4 +1,4 @@
-# Shared source and documentation; other top-level content stays local.
+# Runtime source, installation assets and project documentation.
 /*
 !/.gitignore
 !/.gitattributes
@@ -17,6 +17,7 @@
 !/local-file-reader/
 !/local-computer-control/
 !/local-mcp-gateway/
+!/antigravity-agent/
 
 # Dependencies and generated runtimes
 node_modules/
@@ -39,15 +40,20 @@ shared/workspace-policy.json
 **/tests/
 **/PROVENANCE.md
 **/LOCAL-PATCHES.md
-local-computer-control/parent-launcher.js
 local-file-reader/bin/
 local-file-reader/skills/
 local-computer-control/vendor/windows-mcp/README.md
 local-computer-control/vendor/windows-mcp/LICENSE.md
 local-computer-control/scripts/*
 !local-computer-control/scripts/setup.ps1
+!local-computer-control/scripts/configure-antigravity.ps1
 local-file-reader/scripts/*
 !local-file-reader/scripts/setup-editor.ps1
+antigravity-agent/bin/
+antigravity-agent/skills/
+antigravity-agent/scripts/*
+!antigravity-agent/scripts/progress-window.ps1
+!antigravity-agent/scripts/archive-tasks.mjs
 **/tunnel.json
 .env
 .env.*

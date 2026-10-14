@@ -1,0 +1,18 @@
+{
+  "name": "antigravity-agent-server",
+  "version": "0.6.4",
+  "private": true,
+  "type": "module",
+  "description": "Local stdio MCP adapter for Antigravity CLI tasks",
+  "engines": {
+    "node": ">=20.16.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.30.1",
+    "zod": "4.6.5"
+  },
+  "mcp_compatibility": {
+    "shared_abi": 1,
+    "broker_protocol": 1
+  }
+}

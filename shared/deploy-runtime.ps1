@@ -86,13 +86,25 @@ function Publish-McpModule([string]$Source, [string]$RuntimeBase = $(if ($env:LO
     Restore-McpRelease $runtime $releaseBase
     $manifestPath = Join-Path $runtime '.release-manifest.json'
     $previous = if (Test-Path -LiteralPath $manifestPath) { Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json } else { $null }
-    $files = @{}; $changed = @(); $newFiles = @()
+    $files = @{}; $changed = @(); $newFiles = @(); $sourceFiles = @{}
     foreach ($file in Get-ChildItem -LiteralPath $Source -Recurse -File -Force) {
       $relative = $file.FullName.Substring($Source.Length + 1)
       if ($relative -match '(^|[\\/])(node_modules|tests|\.git|__pycache__|build|[^\\/]+\.egg-info)([\\/]|$)' -or $relative -match '^\.(release|publish)') { continue }
       if ($file.Attributes -band [IO.FileAttributes]::ReparsePoint) { throw "Source release contains a link: $relative" }
       $safeSource = Assert-McpChild $Source $relative
-      $hash = (Get-FileHash -LiteralPath $safeSource -Algorithm SHA256).Hash
+      $sourceFiles[$relative] = $safeSource
+    }
+    $configuration = switch ($name) {
+      'shared' { @('runtime.local.json','workspace-policy.json') }
+      'local-mcp-gateway' { @('services.local.json') }
+      default { @() }
+    }
+    foreach ($relative in $configuration) {
+      $file = Get-McpConfigurationFile $relative (Split-Path -Parent $Source)
+      if ($file) { $sourceFiles[$relative] = Assert-McpChild (Split-Path -Parent $file) (Split-Path -Leaf $file) }
+    }
+    foreach ($relative in $sourceFiles.Keys) {
+      $hash = (Get-FileHash -LiteralPath $sourceFiles[$relative] -Algorithm SHA256).Hash
       $files[$relative] = $hash
       $destination = Assert-McpChild $runtime $relative
       if (-not (Test-Path -LiteralPath $destination)) { $changed += $relative; $newFiles += $relative }
@@ -130,7 +142,7 @@ function Publish-McpModule([string]$Source, [string]$RuntimeBase = $(if ($env:LO
     foreach ($relative in $changed) {
       $target = Assert-McpChild $stage $relative
       New-Item -ItemType Directory -Path (Split-Path -Parent $target) -Force | Out-Null
-      Copy-Item -LiteralPath (Join-Path $Source $relative) -Destination $target
+      Copy-Item -LiteralPath $sourceFiles[$relative] -Destination $target
       if ((Get-FileHash -LiteralPath $target).Hash -ne $files[$relative]) { throw 'Source changed between hashing and staging; installed release was not changed.' }
     }
     if ($needDependencies) {

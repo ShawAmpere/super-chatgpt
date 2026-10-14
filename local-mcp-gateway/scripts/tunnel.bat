@@ -77,6 +77,8 @@ try {
     $tunnelId = $env:CONTROL_PLANE_TUNNEL_ID
     if (-not $tunnelId) { $tunnelId = $env:LOCAL_MCP_TUNNEL_ID }
     $localConfiguration = Join-Path (Split-Path -Parent (Split-Path -Parent (Split-Path -Parent $env:LOCAL_MCP_LAUNCHER_FILE))) 'config\tunnel.local.json'
+    $externalConfiguration = Get-McpConfigurationFile 'tunnel.local.json' $repositoryRoot
+    if ($externalConfiguration) { $localConfiguration = $externalConfiguration }
     if (-not $tunnelId -and (Test-Path -LiteralPath $localConfiguration -PathType Leaf)) { $tunnelId = (Get-Content -LiteralPath $localConfiguration -Raw | ConvertFrom-Json).tunnel_id }
     if ($tunnelId -notmatch '^tunnel_[A-Za-z0-9]+$') {
         throw '请在 config/tunnel.local.json 填写 tunnel_id，或设置 LOCAL_MCP_TUNNEL_ID。'

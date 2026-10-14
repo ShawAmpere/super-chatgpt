@@ -1,8 +1,9 @@
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
+import { configurationFile } from '../shared/runtime-paths.js';
 
 // Local extensions are optional and separate from the distributed defaults.
-export function localServices(file = fileURLToPath(new URL('./services.local.json', import.meta.url))) {
+export function localServices(file = configurationFile('services.local.json', fileURLToPath(new URL('./services.local.json', import.meta.url)))) {
   let config;
   try { config = JSON.parse(readFileSync(file, 'utf8')); }
   catch (error) { if (error.code === 'ENOENT') return { services: [], environment: [], defaults: {}, instructions: '' }; throw error; }

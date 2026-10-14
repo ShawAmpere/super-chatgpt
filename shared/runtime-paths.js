@@ -1,9 +1,17 @@
 import os from 'node:os';
 import path from 'node:path';
 import { existsSync, readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+
+const workspace = fileURLToPath(new URL('..', import.meta.url));
+export function configurationFile(name, fallback, base = workspace) {
+  const directory = process.env.LOCAL_MCP_CONFIG_DIR || path.join(base, '..', 'user', 'config');
+  const candidate = path.join(directory, name);
+  return existsSync(candidate) ? candidate : fallback;
+}
 
 let local = {};
-try { local = JSON.parse(readFileSync(new URL('./runtime.local.json', import.meta.url), 'utf8')); }
+try { local = JSON.parse(readFileSync(configurationFile('runtime.local.json', new URL('./runtime.local.json', import.meta.url)), 'utf8')); }
 catch (error) { if (error.code !== 'ENOENT') throw error; }
 
 export const runtimeRoot = () => process.env.LOCAL_MCP_RUNTIME_ROOT || local.runtime_root ||

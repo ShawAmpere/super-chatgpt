@@ -38,4 +38,6 @@ Node 依赖的名称、版本、完整性哈希和声明许可记录在各组件
 
 主要依赖包括 MCP TypeScript SDK、文档解析库、python-docx、python-pptx、openpyxl、pypdf、PyMuPDF 和 ReportLab。各依赖沿用自己的许可，Windows-MCP 的 MIT 许可不适用于所有依赖。
 
-LibreOffice 和官方 Tunnel 客户端由使用者单独安装，沿用各自的许可与使用条款。项目自有代码尚未指定开源许可；本说明中的第三方许可适用于对应的第三方内容。
+LibreOffice、官方 Tunnel 客户端和 Antigravity CLI 由使用者单独安装，沿用各自的许可、账户要求与使用条款。仓库中的 Antigravity Agent 是 MCP 适配代码，不包含 Antigravity 客户端、CLI 二进制、账户凭据或模型服务。未安装该 CLI 时，基础文件、文档、命令和桌面工具仍可使用。
+
+项目自有代码尚未指定开源许可；本说明中的第三方许可适用于对应的第三方内容。

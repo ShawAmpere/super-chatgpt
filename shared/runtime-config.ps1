@@ -13,12 +13,20 @@ function Get-McpPython {
     return $command.Source
 }
 function Get-McpLocalRuntime {
-    $file = Join-Path $PSScriptRoot 'runtime.local.json'
+    $file = Get-McpConfigurationFile 'runtime.local.json' (Split-Path -Parent $PSScriptRoot)
+    if (-not $file) { $file = Join-Path $PSScriptRoot 'runtime.local.json' }
     if (Test-Path -LiteralPath $file -PathType Leaf) { return Get-Content -LiteralPath $file -Raw | ConvertFrom-Json }
     return $null
 }
+function Get-McpConfigurationFile([string]$Name, [string]$Base) {
+    $directory = if ($env:LOCAL_MCP_CONFIG_DIR) { $env:LOCAL_MCP_CONFIG_DIR } else { Join-Path (Split-Path -Parent $Base) 'user\config' }
+    $file = Join-Path $directory $Name
+    if (Test-Path -LiteralPath $file -PathType Leaf) { return [IO.Path]::GetFullPath($file) }
+    return $null
+}
 function Get-McpWorkspacePolicy([string]$Base) {
-    $file = Join-Path $Base 'shared\workspace-policy.json'
+    $file = Get-McpConfigurationFile 'workspace-policy.json' $Base
+    if (-not $file) { $file = Join-Path $Base 'shared\workspace-policy.json' }
     if (-not (Test-Path -LiteralPath $file -PathType Leaf)) { $file = Join-Path $Base 'shared\workspace-policy.default.json' }
     $policy = Get-Content -LiteralPath $file -Raw | ConvertFrom-Json
     if ($policy.format -ne 1 -or @($policy.component_families.PSObject.Properties).Count -gt 16 -or

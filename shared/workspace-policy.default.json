@@ -4,6 +4,7 @@
   "broker_protocol": 1,
   "component_families": {
     "shared": "1.*",
+    "antigravity-agent": "0.6",
     "local-file-reader": "0.3",
     "local-computer-control": "0.2",
     "local-mcp-gateway": "0.4"

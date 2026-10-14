@@ -1,8 +1,8 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "super-chatgpt",
-  "version": "1.0.1",
-  "description": "Local file reading and editing, Office/PDF editing, command execution and Windows desktop control.",
+  "version": "1.1.0",
+  "description": "Local files, Office/PDF editing, commands, Windows desktop control and optional Antigravity delegation.",
   "author": {
     "name": "Super ChatGPT contributors"
   },
@@ -11,7 +11,7 @@
       "interface": {
         "displayName": "Super ChatGPT",
         "shortDescription": "Local files and Windows tools",
-        "longDescription": "One MCP entry point for local file and document tools, user-authorized commands and shared Windows desktop control.",
+        "longDescription": "One MCP entry point for local file and document tools, user-authorized commands, shared Windows desktop control and optional Antigravity CLI tasks.",
         "developerName": "Super ChatGPT contributors",
         "category": "Productivity",
         "defaultPrompt": "Use the local tools to work on the files and task I specify."
