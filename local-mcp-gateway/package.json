@@ -1,6 +1,6 @@
 {
   "name": "local-mcp-gateway",
-  "version": "0.4.7",
+  "version": "0.4.8",
   "private": true,
   "type": "module",
   "description": "One MCP gateway for local files, documents, commands and Windows desktop control",

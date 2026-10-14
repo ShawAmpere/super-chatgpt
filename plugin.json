@@ -1,9 +1,11 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "super-chatgpt",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Local file reading and editing, Office/PDF editing, command execution and Windows desktop control.",
-  "author": { "name": "Super ChatGPT contributors" },
+  "author": {
+    "name": "Super ChatGPT contributors"
+  },
   "extensions": {
     "com.openai": {
       "interface": {

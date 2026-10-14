@@ -28,7 +28,7 @@ function Get-McpComponentVersions([string]$Base, $Policy) {
 function Publish-McpWorkspace([string]$SourceBase, [string]$RuntimeBase = $(if ($env:LOCAL_MCP_RUNTIME_ROOT) { $env:LOCAL_MCP_RUNTIME_ROOT } else { Get-McpRuntimeRoot })) {
   $SourceBase = (Resolve-Path -LiteralPath $SourceBase).Path
   $RuntimeBase = [IO.Path]::GetFullPath($RuntimeBase)
-  $policy = Get-Content -LiteralPath (Join-Path $SourceBase 'shared\workspace-policy.json') -Raw | ConvertFrom-Json
+  $policy = Get-McpWorkspacePolicy $SourceBase
   $planned = Get-McpComponentVersions $SourceBase $policy
   Invoke-McpWorkspaceGuard $RuntimeBase {
     $pendingPath = Join-Path $RuntimeBase '.workspace-pending.json'
@@ -39,7 +39,9 @@ function Publish-McpWorkspace([string]$SourceBase, [string]$RuntimeBase = $(if (
     }
     Write-McpJson $pendingPath $journal
     try {
-      foreach ($name in @('shared','local-computer-control','local-file-reader','local-mcp-gateway')) {
+      $names = @($policy.component_families.PSObject.Properties.Name)
+      $order = @('shared','local-computer-control') + @($names | Where-Object { $_ -notin @('shared','local-computer-control','local-mcp-gateway') }) + @('local-mcp-gateway')
+      foreach ($name in $order) {
         $journal.current_module = $name; Write-McpJson $pendingPath $journal
         $published = Publish-McpModule (Join-Path $SourceBase $name) $RuntimeBase -WorkspaceGuardHeld
         $journal.completed += $published
@@ -92,7 +94,8 @@ function Invoke-McpReleaseRetention([string]$RuntimeBase, [int]$KeepPerModule = 
   $releaseBase = Assert-McpChild $RuntimeBase '.releases'
   if (-not (Test-Path -LiteralPath $releaseBase)) { return }
   $protected = @{}
-  foreach ($name in @('shared','local-file-reader','local-computer-control','local-mcp-gateway')) {
+  $moduleNames = @((Get-McpWorkspacePolicy $RuntimeBase).component_families.PSObject.Properties.Name)
+  foreach ($name in $moduleNames) {
     foreach ($file in @('.release-manifest.json','.release-pending.json')) {
       $recordPath = Assert-McpChild $RuntimeBase ($name + '\' + $file)
       if (Test-Path -LiteralPath $recordPath) {
@@ -111,7 +114,7 @@ function Invoke-McpReleaseRetention([string]$RuntimeBase, [int]$KeepPerModule = 
   }
   $candidates = @(); $skipped = @()
   foreach ($folder in Get-ChildItem -LiteralPath $releaseBase -Directory -Force) {
-    if ($folder.Name -notin @('shared','local-file-reader','local-computer-control','local-mcp-gateway')) { continue }
+    if ($folder.Name -notin $moduleNames) { continue }
     $safeModule = Assert-McpChild $releaseBase $folder.Name
     foreach ($releaseFolder in Get-ChildItem -LiteralPath $safeModule -Directory -Force) {
       $id = $folder.Name + '\' + $releaseFolder.Name
@@ -149,8 +152,7 @@ function Invoke-McpReleaseRetention([string]$RuntimeBase, [int]$KeepPerModule = 
 }
 
 function Invoke-McpDefaultRetention([string]$RuntimeBase) {
-  $policyPath = Join-Path $RuntimeBase 'shared\workspace-policy.json'
-  $policy = Get-Content -LiteralPath $policyPath -Raw | ConvertFrom-Json
+  $policy = Get-McpWorkspacePolicy $RuntimeBase
   try { Invoke-McpReleaseRetention $RuntimeBase -KeepPerModule $policy.release_retention.per_module -MaxBytes $policy.release_retention.max_bytes }
   catch { Write-Warning ('Publication succeeded, but backup retention could not finish: ' + $_.Exception.Message) }
 }

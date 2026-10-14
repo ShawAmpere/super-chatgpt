@@ -167,7 +167,7 @@ if ((Split-Path -Leaf $ModuleRoot) -eq 'local-mcp-gateway') {
   if ($LASTEXITCODE -ne 0) { throw "Workspace compatibility check failed: $workspaceStatus. Rerun gateway scripts/update-runtime.ps1." }
   $workspaceState = $workspaceStatus | ConvertFrom-Json
   foreach ($issue in $workspaceState.issues) { Write-Warning $issue }
-foreach ($serviceName in @('local-file-reader','local-computer-control')) {
+foreach ($serviceName in @($workspaceState.versions.PSObject.Properties.Name | Where-Object { $_ -notin @('shared','local-mcp-gateway') })) {
   $serviceRoot = Join-Path (Split-Path -Parent $ModuleRoot) $serviceName
   if (-not (Test-Path -LiteralPath (Join-Path $serviceRoot 'server.js') -PathType Leaf)) { throw "Missing local service: $serviceRoot" }
 }

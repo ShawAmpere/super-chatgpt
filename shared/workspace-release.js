@@ -76,7 +76,7 @@ export async function verifyDependencies(base,names) {
 export async function workspaceStatus(base, { verifyFiles = false, verifyDependencyFiles = false } = {}) {
   const issues = [], versions = {};
   let compatible = true;
-  const policy = await read(path.join(base, 'shared/workspace-policy.json'));
+  const policy = await read(path.join(base, 'shared/workspace-policy.json')) || await read(path.join(base, 'shared/workspace-policy.default.json'));
   if (policy?.format !== 1) throw new Error('Workspace compatibility policy is missing or unsupported.');
   for (const [name, family] of Object.entries(policy.component_families)) {
     const pkg = await read(path.join(base, name, 'package.json'));

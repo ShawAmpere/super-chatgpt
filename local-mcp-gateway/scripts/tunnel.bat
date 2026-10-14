@@ -19,9 +19,6 @@ set "LOCAL_MCP_LAUNCHER_MODE=%~1"
 rem Configure tunnel_id in config/tunnel.local.json; never store an API key here.
 
 rem 明确指定已安装的电脑控制服务配置目录。
-if not defined LOCAL_MCP_RUNTIME_ROOT set "LOCAL_MCP_RUNTIME_ROOT=%LOCALAPPDATA%\SuperChatGPT"
-if not defined LOCAL_COMPUTER_CONTROL_STATE_DIR set "LOCAL_COMPUTER_CONTROL_STATE_DIR=%LOCAL_MCP_RUNTIME_ROOT%\.runtime\local-computer-control"
-
 "%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoLogo -NoProfile -ExecutionPolicy Bypass -Command "$ErrorActionPreference='Stop'; $text=[IO.File]::ReadAllText($env:LOCAL_MCP_LAUNCHER_FILE,[Text.Encoding]::UTF8); $parts=$text -split '(?m)^:__LOCAL_MCP_POWERSHELL__\r?$',2; if($parts.Count -ne 2){throw 'Launcher content is incomplete.'}; & ([ScriptBlock]::Create($parts[1]))"
 
 set "LOCAL_MCP_EXIT_CODE=%ERRORLEVEL%"
@@ -62,6 +59,10 @@ $originalKey = $env:CONTROL_PLANE_API_KEY
 $exitCode = 0
 
 try {
+    $repositoryRoot = Split-Path -Parent (Split-Path -Parent (Split-Path -Parent $env:LOCAL_MCP_LAUNCHER_FILE))
+    . (Join-Path $repositoryRoot 'shared\runtime-config.ps1')
+    if (-not $env:LOCAL_MCP_RUNTIME_ROOT) { $env:LOCAL_MCP_RUNTIME_ROOT = Get-McpRuntimeRoot }
+    if (-not $env:LOCAL_COMPUTER_CONTROL_STATE_DIR) { $env:LOCAL_COMPUTER_CONTROL_STATE_DIR = Join-Path $env:LOCAL_MCP_RUNTIME_ROOT '.runtime\local-computer-control' }
     $mode = ([string]$env:LOCAL_MCP_LAUNCHER_MODE).ToLowerInvariant()
 
     if ($mode -notin @('', '/reset-key', '/check', '/help')) {

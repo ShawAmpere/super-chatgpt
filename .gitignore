@@ -1,3 +1,23 @@
+# Shared source and documentation; other top-level content stays local.
+/*
+!/.gitignore
+!/.gitattributes
+!/README.md
+!/MAINTENANCE.md
+!/THIRD_PARTY_NOTICES.md
+!/package.json
+!/package-lock.json
+!/plugin.json
+!/mcp.json
+!/tunnel.bat
+!/config/
+!/scripts/
+!/skills/
+!/shared/
+!/local-file-reader/
+!/local-computer-control/
+!/local-mcp-gateway/
+
 # Dependencies and generated runtimes
 node_modules/
 __pycache__/
@@ -12,6 +32,22 @@ dist/
 
 # Local connection data, credentials, logs and test outputs
 config/*.local.json
+*.local.json
+shared/workspace-policy.json
+**/.mcp.json
+**/.codex-plugin/
+**/tests/
+**/PROVENANCE.md
+**/LOCAL-PATCHES.md
+local-computer-control/parent-launcher.js
+local-file-reader/bin/
+local-file-reader/skills/
+local-computer-control/vendor/windows-mcp/README.md
+local-computer-control/vendor/windows-mcp/LICENSE.md
+local-computer-control/scripts/*
+!local-computer-control/scripts/setup.ps1
+local-file-reader/scripts/*
+!local-file-reader/scripts/setup-editor.ps1
 **/tunnel.json
 .env
 .env.*

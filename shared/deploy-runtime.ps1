@@ -71,7 +71,8 @@ function Publish-McpModule([string]$Source, [string]$RuntimeBase = $(if ($env:LO
   }
   $Source = (Resolve-Path -LiteralPath $Source).Path
   $name = Split-Path -Leaf $Source
-  if ($name -notin @('shared','local-file-reader','local-computer-control','local-mcp-gateway')) { throw 'Unexpected managed module name.' }
+  $policy = Get-McpWorkspacePolicy (Split-Path -Parent $Source)
+  if ($name -notin @($policy.component_families.PSObject.Properties.Name)) { throw 'Unexpected managed module name.' }
   $RuntimeBase = [IO.Path]::GetFullPath($RuntimeBase)
   $runtime = Assert-McpChild $RuntimeBase $name
   New-Item -ItemType Directory -Path $runtime -Force | Out-Null

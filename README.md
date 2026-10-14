@@ -73,4 +73,8 @@ LibreOffice 是可选组件，用于旧版 Office、RTF 等格式转换。安装
 
 更新源码后重新运行 `npm run setup`，待当前工作结束后重启 Tunnel 并刷新工具。文件备份、命令记录、桌面状态和密钥保存在运行目录或用户数据目录中，与源码分开。
 
+项目根目录也是 Git 工作目录，公共源码直接在这里修改和提交。个人扩展、测试资料和本地配置由 `.gitignore` 隔离，无需维护另一份上传副本。
+
+`shared/runtime.local.json` 可指定本机运行目录和 Python，`shared/workspace-policy.json` 可覆盖默认组件清单，`local-mcp-gateway/services.local.json` 可接入本地附加服务。这些配置不随仓库提交；没有本地配置时使用默认的两个后端和 25 个工具。
+
 组件结构、依赖更新和故障处理见 [维护报告](MAINTENANCE.md)，第三方来源和许可见 [第三方说明](THIRD_PARTY_NOTICES.md)。
