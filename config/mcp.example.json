@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "super-chatgpt": {
+      "command": "node",
+      "args": ["C:/Projects/super-chatgpt/local-mcp-gateway/server.js"],
+      "cwd": "C:/Projects/super-chatgpt/local-mcp-gateway"
+    }
+  }
+}

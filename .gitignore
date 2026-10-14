@@ -1,0 +1,35 @@
+# Dependencies and generated runtimes
+node_modules/
+__pycache__/
+*.py[cod]
+.venv/
+.runtime/
+.releases/
+build/
+dist/
+*.egg-info/
+**/bin/*.exe
+
+# Local connection data, credentials, logs and test outputs
+config/*.local.json
+**/tunnel.json
+.env
+.env.*
+!.env.example
+*.dpapi
+*.pem
+*.key
+*.log
+reports/
+.validation/
+.workspace-*.json
+.release-*.json
+*.zip
+*.bak
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Personal IDE overrides
+.idea/
+.vscode/

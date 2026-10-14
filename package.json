@@ -1,0 +1,12 @@
+{
+  "name": "super-chatgpt",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Portable Windows MCP tools for local files, documents, commands and desktop control",
+  "engines": { "node": ">=20.16.0" },
+  "scripts": {
+    "install:dependencies": "node scripts/install-dependencies.mjs",
+    "setup": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/setup.ps1"
+  }
+}

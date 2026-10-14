@@ -1,0 +1,17 @@
+{
+  "name": "local-mcp-gateway",
+  "version": "0.4.7",
+  "private": true,
+  "type": "module",
+  "description": "One MCP gateway for local files, documents, commands and Windows desktop control",
+  "engines": {
+    "node": ">=20.16.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.30.1"
+  },
+  "mcp_compatibility": {
+    "shared_abi": 1,
+    "broker_protocol": 1
+  }
+}

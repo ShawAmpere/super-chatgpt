@@ -1,0 +1,15 @@
+{
+  "format": 1,
+  "shared_abi": 1,
+  "broker_protocol": 1,
+  "component_families": {
+    "shared": "1.*",
+    "local-file-reader": "0.3",
+    "local-computer-control": "0.2",
+    "local-mcp-gateway": "0.4"
+  },
+  "release_retention": {
+    "per_module": 3,
+    "max_bytes": 1073741824
+  }
+}
