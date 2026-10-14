@@ -54,6 +54,28 @@ LibreOffice 是可选组件，用于旧版文档转换；未被自动发现时�
 
 `tunnel.bat /check` 检查配置和连接，`tunnel.bat /reset-key` 更换密钥。普通启动会停止同一 Tunnel 的旧实例后重新启动，应在依赖该连接的工作结束后运行。
 
+### ChatGPT HTTPS 接入（需另行配置）
+
+也可以通过公开的 HTTPS MCP 地址连接 ChatGPT，无需 OpenAI Tunnel ID 和 Runtime API key。用户仍需具备添加和使用自定义 MCP 的权限，账号与工作区限制以 [ChatGPT 接入说明](https://developers.openai.com/api/docs/guides/custom-mcp-server) 为准。
+
+当前仓库提供 stdio 网关；此路径需要另外配置 HTTP 适配层和认证服务，尚无随仓库提供的一键启动程序。文件、文档、命令和电脑控制后端可继续复用。
+
+1. 部署支持 MCP Streamable HTTP 的适配层，将 `/mcp` 请求转发给本地 `local-mcp-gateway/server.js` 的 stdio 服务。本地 HTTP 接口绑定 `127.0.0.1`。
+2. 配置与 ChatGPT 兼容的 OAuth 登录和授权，在服务端验证访问令牌及操作权限。OAuth 的发现、登录和令牌接口也需要能被相应客户端访问；文件写入、终端和桌面操作不应通过无认证的公开接口暴露。
+3. 使用 MCP Inspector 检查初始化、工具列表、认证和一次只读调用，再通过 ngrok 等转发服务为 HTTP 接口取得 HTTPS 地址。
+4. 在 ChatGPT 的 Plugins 页面选择 **Add custom MCP server**，填写带 `/mcp` 路径的 **Server URL**，配置 OAuth 并完成登录授权，创建并安装插件。
+5. 在新对话中选用插件，先确认工具发现和只读调用正常，再使用需要授权的写入与桌面功能。
+
+例如，适配层和认证已配置完成，HTTP 服务监听 `127.0.0.1:8787` 时，可运行：
+
+```powershell
+ngrok http 8787
+```
+
+将转发服务返回的地址加上 `/mcp`，例如 `https://<subdomain>.ngrok.app/mcp`，填入 ChatGPT。ngrok 负责转发 HTTP 请求，HTTP 接口和认证需先配置完成。第三方转发服务可能需要自己的账号或凭证。
+
+使用期间保持本地服务和转发程序运行。HTTPS 地址变化后需更新连接；长期使用宜配置稳定地址。接口与转发流程见 [官方 HTTPS MCP 教程](https://developers.openai.com/plugins/build/app-quickstart)，OAuth 配置见 [认证说明](https://developers.openai.com/plugins/build/auth)。
+
 ## 使用
 
 可以直接提出具体需求，例如读取代码、修改文件、编辑文档、执行测试或操作独立窗口。
