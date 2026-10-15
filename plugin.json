@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "super-chatgpt",
-  "version": "1.1.0",
+  "version": "0.1.0",
   "description": "Local files, Office/PDF editing, commands, Windows desktop control and optional Antigravity delegation.",
   "author": {
     "name": "Super ChatGPT contributors"

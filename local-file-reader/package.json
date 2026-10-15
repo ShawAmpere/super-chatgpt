@@ -1,6 +1,6 @@
 {
   "name": "local-file-reader-server",
-  "version": "0.3.5",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "description": "Direct local file reading and user-requested writing MCP server",

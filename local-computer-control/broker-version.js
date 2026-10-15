@@ -1,5 +1,5 @@
 // Change the version whenever the detached Broker implementation changes.
-export const BROKER_VERSION = '0.2.7';
+export const BROKER_VERSION = '0.1.0';
 export const BROKER_PROTOCOL = 1;
 export const supportsBroker = health => health?.protocol === BROKER_PROTOCOL ||
   (health?.protocol == null && /^0\.[12]\.\d+$/.test(health?.version || ''));

@@ -1,6 +1,6 @@
 {
   "name": "local-computer-control",
-  "version": "0.2.7",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "description": "Shared Windows desktop MCP adapter for authorized local workflows",

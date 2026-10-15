@@ -1,6 +1,6 @@
 {
   "name": "antigravity-agent-server",
-  "version": "0.6.4",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "description": "Local stdio MCP adapter for Antigravity CLI tasks",

@@ -276,7 +276,7 @@ const { startTask } = createTaskRunner(context);
 const { pidIsAlive, recoverInterruptedTask, requestCleanup, cancelTask, shutdown } = createTaskRecovery(context);
 const { messageFile, readMessages, saveMessages, pendingMessages, messageReceipts, messageSummary, refreshMessages, sendTaskMessage, inspectInbox } = createMessageQueue(context);
 
-const server = new McpServer({ name: "antigravity-agent", version: "0.6.4" }, {
+const server = new McpServer({ name: "antigravity-agent", version: "0.1.0" }, {
   instructions: "Delegate only when authorized. Submit once with execute_task and retain its ID. When a result is needed, keep calling wait_task (20 seconds maximum) while continue_waiting=true; retrieve all next_offset pages, assess the result and continue the workflow. Background-only requests may return promptly. A network error is not task failure: inspect saved state before resubmitting. Native progress windows never inject context or wake an ended turn. Different chats own separate task IDs; do not message/cancel another chat's task without authorization. Preserve explicit model, effort, directory and restrictions across follow-ups. Defaults: gemini-3.8-flash-high, high, accept-edits, full CLI access. Never silently substitute a model; model identity is separate from effort telemetry. Tool descriptions specify message receipts, result paging and reopen/cancel behavior.",
 });
 

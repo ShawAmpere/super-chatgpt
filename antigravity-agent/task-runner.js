@@ -315,7 +315,7 @@ async function startTask(input, continuation = null) {
     ownerStartedAt: OWNER_STARTED_AT, ownerExecutable: process.execPath,
   };
   if (!continuation) await recoverInterruptedTask();
-  // Pre-0.6.2 continuations used the task ID as their desktop lease owner.
+  // Legacy continuations used the task ID as their desktop lease owner.
   const desktopOwner = record.computerControl?.owner_id || (continuation ? record.id : randomUUID());
   let desktopEnvironment;
   if (COMPUTER_ENABLED) {
