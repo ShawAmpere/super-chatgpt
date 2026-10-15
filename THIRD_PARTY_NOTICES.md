@@ -6,31 +6,11 @@
 
 源码位于 `local-computer-control/vendor/windows-mcp`，包含输入、等待、窗口匹配和控件定位等本地修改，修改范围见 [维护报告](MAINTENANCE.md)。Python 包的 `pyproject.toml` 保留上游作者信息，`LICENSE` 保留完整许可并随包安装。
 
-### MIT 许可全文
+完整许可及版权声明见随源码保留的 [Windows-MCP LICENSE](local-computer-control/vendor/windows-mcp/LICENSE)。
 
-```text
-MIT License
+## PyMuPDF
 
-Copyright (c) 2025 JEOMON GEORGE
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
+文档编辑环境安装 PyMuPDF 1.28.2，用于 PDF 内容校验及编辑脚本。PyMuPDF 和 MuPDF 采用 AGPL 与商业双许可；使用开源版本时需遵守其 AGPL 条款。项目自有代码的许可不替代这一依赖的许可。详见 [PyMuPDF 许可说明](https://pymupdf.readthedocs.io/en/latest/about.html#license-and-copyright)。
 
 ## 依赖与外部程序
 
@@ -40,4 +20,4 @@ Node 依赖的名称、版本、完整性哈希和声明许可记录在各组件
 
 LibreOffice、官方 Tunnel 客户端和 Antigravity CLI 由使用者单独安装，沿用各自的许可、账户要求与使用条款。仓库中的 Antigravity Agent 是 MCP 适配代码，不包含 Antigravity 客户端、CLI 二进制、账户凭据或模型服务。未安装该 CLI 时，基础文件、文档、命令和桌面工具仍可使用。
 
-项目自有代码尚未指定开源许可；本说明中的第三方许可适用于对应的第三方内容。
+本项目自有源码的使用说明见 [源码使用](README.md#源码使用)。本说明中的第三方许可适用于对应的第三方内容。
